@@ -1,0 +1,3 @@
+#!/bin/sh
+
+_common_aliases; _port_aliases

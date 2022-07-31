@@ -1,0 +1,2 @@
+
+--env PATH="$HOME/.local/bin:$HOME/Library/Python/3.10/bin:$CARGO_HOME/bin:$RUSTUP_HOME/bin:$GOPATH/bin:$HOME/.yarn/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
