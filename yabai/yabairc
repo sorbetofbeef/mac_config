@@ -90,7 +90,7 @@ yabai -m rule --add app="^(mpv|qemu-system-aarch64|Simulator|Android Studio|JetB
 yabai -m rule --add label="Steam" app="^Steam$" space=5 manage=off
 yabai -m rule --add label="Outlook" app="^Microsoft .*$" manage=off
 yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
-yabai -m rule --add label="PopUp" app="^kitty$" title="^PopUp$" grid=7:5:4:2:3:3 manage=off
+yabai -m rule --add label="PopUp" app="^kitty$" title="^PopUp$" grid=7:5:2:4:3:3 manage=off
 yabai -m rule --add label="Alfred" app="^Alfred$" manage=off
 yabai -m rule --add label="Firefox" app="Firefox$" title="^(Library|History|General|(Download|Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
 yabai -m rule --add label="System Preferences" app="^System Preferences$" manage=off

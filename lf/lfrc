@@ -89,6 +89,7 @@ cmd extract ${{
         *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
         *.tar.gz|*.tgz) tar xzvf $f;;
         *.tar.xz|*.txz) tar xJvf $f;;
+        *.tar.zst) zstd -d $f && tar xvf ${f%.zst}
         *.zip) unzip $f;;
         *.rar) unrar x $f;;
         *.7z) 7z x $f;;
@@ -246,7 +247,8 @@ map <a-O> push :chown-recurse<space>
 
 # Git
 map g
-map gg          $gitui
+map gg          $lazygit
+map gi          %git init ${f%/*} -C
 map gm     push %gh<space>repo<space>create<space>--public<space>
 map gM     push %gh<space>repo<space>create<space>--private<space>
 map gC     push %gh<space>repo<space>clone<space>
