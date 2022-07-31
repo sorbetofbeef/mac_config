@@ -1,5 +1,6 @@
 nvim/
 zsh/.histfile
+zsh/.zcompdump
 .DS_Store
 aacs/
 backup/
