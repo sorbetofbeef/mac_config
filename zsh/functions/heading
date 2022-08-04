@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/opt/homebrew/bin/zsh
+
 loop=true
+
 while $loop ; do
+  i=0
   for f in "$HOME"/Desktop/active/*.todo ; do
     i=$((i + 1))
     echo -e "\e[1;31m+----\e[0m\e[36m[\e[0m \e[1;31;3mEntry $i\e[0m \e[36m]\e[0m\e[1;31m--------------------------------------+\e[0m" >> ~/.cache/todo.cache

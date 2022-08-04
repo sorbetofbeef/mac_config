@@ -35,8 +35,11 @@ zstyle ':completion:*' matcher-list '' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
 zmodload zsh/complist
 
-fpath=($ZDOTDIR/functions $ZDOTDIR/site_functions /opt/local/share/zsh-completions $fpath)
-autoload -Uz promptinit compinit
+if type brew &>/dev/null; then
+	fpath=($(brew --prefix)/share/zsh-completions $fpath)
+fi
+fpath=($ZDOTDIR/functions $ZDOTDIR/site_functions $fpath)
+autoload -Uz promptinit; autoload -Uz compinit
 
 for func in $ZDOTDIR/functions/*
 do
@@ -45,8 +48,8 @@ done
 
 promptinit; compinit -i; aliasinit
 
-source /opt/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # source /opt/local/share/zsh/zsh-autopair/autopair.zsh
 
 # if [[ -n $KITTY_INSTALLATION_DIR ]]; then
@@ -58,7 +61,7 @@ source /opt/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 bindkey -s '^o' 'lfcd\n'  # zsh
 
-source /opt/local/share/nvm/init-nvm.sh
+source /opt/homebrew/Cellar/nvm/0.39.1_1/libexec/nvm.sh
 source /Users/me/.config/broot/launcher/bash/br
 
 source <(/Users/me/.local/share/cargo/bin/starship init zsh --print-full-init)

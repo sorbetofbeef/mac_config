@@ -21,3 +21,8 @@ tool_state
 zellij/
 startpage/
 
+
+zsh/.zsh_sessions
+zsh/.zsh_history
+zsh/.zsh_history
+starship.toml.powerline.bak

@@ -3,7 +3,6 @@
 # ~/.config/lf/lfrc
 #
 
-
 ### SETTINGS
 
 # General
@@ -18,12 +17,14 @@ set tabstop 2
 set ratios 1:2:2
 set cleaner ~/.config/lf/lf_kitty_clean
 set previewer ~/.config/lf/lf_kitty_preview
+############################################################################
 
 # Shell
 set shell zsh
 set shellopts '-euy'
 set ifs "\n"
 set filesep "\n"
+############################################################################
 
 # Unset any prolematic keybinds
 map e
@@ -39,8 +40,11 @@ map -
 cmap <c-g>
 cmap <C-S-g>
 cmap <c-s-g>
+############################################################################
 
 ### CUSTOM COMMANDS
+
+# INIT
 
 cmd on-cd &{{
     # display git repository status in your prompt
@@ -55,34 +59,35 @@ cmd on-cd &{{
 }} 
 
 on-cd
+!fpath=(/Users/me/.config/zsh/functions $fpath) && autoload heading && heading
+############################################################################
 
-# Opens text/* mime type with $EDITOR; other mimetpyes with $OPENEr
-cmd open ${{
-    test -L $f && f=$(readlink -f $f)
-    case $(file --mime-type $f -b) in
-        text/*) $EDITOR $fx;;
-        video/*) mpv $fx;;
-        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
-    esac
+## TODOLIST
+cmd todo !{{
+  set -f 
+  clear
+  sh -c '/Users/me/.local/bin/scripts/todo.sh'
 }}
+# mappings
+map <c-t> :todo
+############################################################################
 
-# Renames a file unless target file exists
-# cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+# OPEN DEFAULT APP
+cmd open ${{
+  case $(file --mime-type "$(readlink -f $f)" -b) in
+    text/*|application/json|application/octet-stream) $EDITOR $fx;;
+    *) for f in $fx; do open $f > /dev/null 2> /dev/null & done;;
+  esac
+}}
+############################################################################
 
-# RIP
-cmd trash %set -f; mv -v $fx "${HOME}/.local/share/trash"
 
-# cmd untrash %{{
-#   set -f
-#
-#   if [[ -e $fs ]]; then
-#     rip -u --graveyard="${HOME}/.local/share/trash" $fs
-#   else
-#     rip -u --graveyard="${HOME}/.local/share/trash"
-#   fi
-# }}
+# TRASH
+cmd trash %trash -Fv $fx
+############################################################################
 
-# extract the current file with the right command
+# (DE)COMPRESSION
+# decompression
 cmd extract ${{
     set -f
     case $f in
@@ -95,8 +100,7 @@ cmd extract ${{
         *.7z) 7z x $f;;
     esac
 }}
-
-# compress current file or selected files with tar and xz
+# Compression: tar
 cmd tar ${{
     set -f
     mkdir $1
@@ -104,8 +108,7 @@ cmd tar ${{
     tar cf $1.tar.xz --compress-program='xz -z -9e -T4 -f' $1 
     rm -rf $1
 }}
-
-# compress current file or selected files with zip
+# Compression: zip
 cmd zip ${{
     set -f
     mkdir $1
@@ -113,9 +116,9 @@ cmd zip ${{
     zip -r $1.zip $1
     rm -rf $1
 }}
+############################################################################
 
-
-# Link
+# LINK
 cmd link !{{
   set -f
 
@@ -135,50 +138,23 @@ cmd link !{{
     ${sup:-''}ln -sv${p:-''} "${file}" ${arg:='..'}/${target/%.[sl][hu]*}
   done
 }}
+############################################################################
 
-
-# Git
+# GIT
 cmd git-add !{{
   set -f 
 
-  if [[ -n $fs ]]; then
-    loop=true
-    while $loop; do
-      for files in $fx ; do 
-        function add_entry {
-          target=$1
-          file=$2
-          ref="$(dirname $file)"
-          t="${file##*/}"
-          entry="${ref##$HOME/$target/}/${t}"
-          echo $entry
-          ! rg -q -i "$entry" ~/$target/.git-add && printf '%s\n' "$entry" >> ~/$target/.git-add
-        }
-
-        case $files in
-          */.local* ) add_entry ".local" "$files" ;;
-          */.config* ) add_entry ".config" "$files" ;;
-          */docs* ) add_entry "docs" "$files" ;;
-          * ) echo "error in for loop" ;;
-        esac
-      done
-      loop=false
-    done
-  fi
-
-  case $fx in 
-    */.local* ) git add --verbose $(cat ~/.local/.git-add) ;;
-    */.config* ) git add --verbose $(cat ~/.config/.git-add) ;;
-    */docs* ) git add --verbose $(cat ~/docs/.git-add) ;;
-    * ) echo "error in last case" ;;
-  esac
+  git status &&
+  git add $fx
 }}
+############################################################################
 
 # Chown
 cmd chown %set -f; sudo chown -v $1 $fx
 cmd chown-recurse %set -f; sudo chown -Rv $1 $fx
 
 cmd mkdir $mkdir -pv "$@"
+############################################################################
 
 ### KEYBINDS
 
@@ -195,6 +171,7 @@ map <delete> :delete $fx
 map D :trash $fx
 
 map r :rename $f
+############################################################################
 
 # Link
 map <c-l>
@@ -202,26 +179,31 @@ map <c-l>l push :link<space>-o<space>
 map <c-l>L push :link<space>-fo<space>
 map <c-l>d push :link<space>-do<space>
 map <c-l>D push :link<space>-dfo<space>
-
+############################################################################
 
 # Neovim
 map e $nvim $fx
 map <c-e> push $sudo<space>nvim<space>
 map <a-e> $nvim /Users/me/.config/lf/lfrc
-
-# Paru
-# map <c-p>p $pcurses
-# map <c-p>i push !paru<space>-Syu<space>
-# map <c-p>r push !paru<space>-Rscu<space>
-# map <c-p>f push !paru<space>-Ss<space>
+############################################################################
 
 #MacPorts
-
 cmd port_upgrade !{{
   set -f
   sudo port selfupdate &&
   sudo port upgrade -cRu outdated
 }}
+############################################################################
+
+# Homebrew
+cmd brew_install :{{
+    push !brew<space>install<space>
+  }}
+
+map b 
+map bi :brew_install
+map bu      !brew update && brew upgrade
+############################################################################
 
 map <c-p>
 map <c-p>i push !sudo<space>port<space>install<space>-c<space>
@@ -230,24 +212,28 @@ map <c-p>r push !sudo<space>port<space>uninstall<space>-u<space>
 map <c-p>s push !sudo<space>port<space>select<space>--set<space>
 map <c-p>S push !sudo port select --summary
 map <c-p>p $sudo port
+############################################################################
 
 # Add permission
 map +x %sudo chmod -v +x $fx
 map +r %sudo chmod -v +r $fx
 map +w %sudo chmod -v +w $fx
+############################################################################
 
 # Remove permission
 map -x %sudo chmod -v -x $fx
 map -r %sudo chmod -v -r $fx
 map -w %sudo chmod -v -w $fx
+############################################################################
 
 # Chown
 map <a-o> push :chown<space>
 map <a-O> push :chown-recurse<space>
+############################################################################
 
 # Git
 map g
-map gg          $lazygit
+map gg          $lazygit -p=$PWD
 map gi          %git init ${f%/*} -C
 map gm     push %gh<space>repo<space>create<space>--public<space>
 map gM     push %gh<space>repo<space>create<space>--private<space>
@@ -259,5 +245,6 @@ map gu     push !git<space>push<space>-u<space>
 map gP     push !git<space>pull<space>
 map gf     push !git<space>fetch<space>--all<space>
 map g<c-m>      !git merge $fx
+############################################################################
 
 
