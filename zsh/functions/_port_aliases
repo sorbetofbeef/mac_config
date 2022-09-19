@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 alias \
   padd='sudo port install -c' \
   pset='sudo port select --set' \
@@ -9,4 +8,10 @@ alias \
   psearch='sudo port search' \
   pvars='sudo port variants' \
   prm='sudo port uninstall -Ruc'
+
+alias \
+  badd='brew install' \
+  bup='brew update && brew upgrade' \
+  brm='brew uninstall' \
+  bfind='brew info'
 

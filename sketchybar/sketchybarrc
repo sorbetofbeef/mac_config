@@ -15,11 +15,12 @@ PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 
 sketchybar --bar height=38        \
                  shadow=on        \
+                 # y_offset=32      \
                  blur_radius=50   \
                  position=top     \
                  padding_left=10  \
                  padding_right=10 \
-                 color=0xff000022
+                 color=0x#aa161616
 
 
 ##### Changing Defaults #####
@@ -29,9 +30,9 @@ sketchybar --bar height=38        \
 
 sketchybar --default updates=when_shown                    \
                      drawing=on                            \
-                     icon.font="Hack Nerd Font:Bold:14.0"  \
+                     icon.font"Liga SFMono Nerd Font:Bold:14.0"  \
                      icon.color=0xff8f342f \
-                     label.font="Cartograph CF:Demi Bold Italic:12.0" \
+                     label.font="Liga SFMono Nerd Font:Bold:12.0" \
                      label.color=0xffaeaeae \
                      label.padding_left=4                  \
                      label.padding_right=4                 \
@@ -79,12 +80,17 @@ sketchybar --add item space_separator left                            \
            --subscribe window_title front_app_switched
 
 ##### Adding Right Items #####
-sketchybar --add item clock right                        \
-           --set clock   update_freq=10                  \
-                         script="$PLUGIN_DIR/clock.sh"   \
-           --add item battery right                      \
-           --set battery script="$PLUGIN_DIR/battery.sh" \
-                         update_freq=10                  \
+sketchybar --add item clock right                                     \
+           --set clock   update_freq=10                               \
+                         script="$PLUGIN_DIR/clock.sh"                \
+           --add item space_separator right                           \
+           --set space_separator icon=                               \
+                                 background.padding_left=5            \
+                                 background.padding_right=5           \
+                                 label.drawing=off                    \
+           --add item battery right                                   \
+           --set battery script="$PLUGIN_DIR/battery.sh"              \
+                         update_freq=60                               \
            --subscribe battery system_woke
 
 ##### Finalizing Setup #####

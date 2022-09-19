@@ -69,9 +69,12 @@
 
 # open terminal, blazingly fast compared to iTerm/Hyper
 cmd + shift - return : ~/.local/bin/float_term t &> /dev/null 
+cmd + ctrl - return : ~/.local/bin/float_term l &> /dev/null
 cmd - return : ~/.local/bin/float_term f &> /dev/null
+cmd + ctrl - m : ~/.local/bin/float_term m &> /dev/null
 # open neovim
-cmd + shift - e : open -a Neovide --args --multigrid --frame Buttonless -- +cd /Users/me/Projects
+cmd + shift - e : ~/.local/bin/float_term e &> /dev/null 
+cmd + ctrl - e : open -na Neovide --args --multigrid --frame Buttonless -- +cd /Users/me/Projects
 # open firefox
 cmd + shift - b : open -a Firefox
 

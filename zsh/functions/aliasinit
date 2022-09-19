@@ -1,3 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env zsh
+#shellsheck=zsh
 
 _common_aliases; _port_aliases

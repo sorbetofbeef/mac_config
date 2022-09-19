@@ -1,56 +1,8 @@
 #!/usr/bin/env sh
 
-# the scripting-addition must be loaded manually if
-# you are running yabai on macOS Big Sur. Uncomment
-# the following line to have the injection performed
-# when the config is executed during startup.
-#
-# for this to work you must configure sudo such that
-# it will be able to run the command without password
-#
-# see this wiki page for information:
-#  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)
-#
-# sudo yabai --load-sa
-# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-
-# global settings
-# yabai -m config mouse_follows_focus          off
-# yabai -m config focus_follows_mouse          off
-# yabai -m config window_origin_display        default
-# yabai -m config window_placement             second_child
-# yabai -m config window_topmost               off
-# yabai -m config window_shadow                on
-# yabai -m config window_opacity               off
-# yabai -m config window_opacity_duration      0.0
-# yabai -m config active_window_opacity        1.0
-# yabai -m config normal_window_opacity        0.90
-# yabai -m config window_border                off
-# yabai -m config window_border_width          6
-# yabai -m config active_window_border_color   0xff775759
-# yabai -m config normal_window_border_color   0xff555555
-# yabai -m config insert_feedback_color        0xffd75f5f
-# yabai -m config split_ratio                  0.50
-# yabai -m config auto_balance                 off
-# yabai -m config mouse_modifier               fn
-# yabai -m config mouse_action1                move
-# yabai -m config mouse_action2                resize
-# yabai -m config mouse_drop_action            swap
-# 
-# # general space settings
-# yabai -m config layout                       bsp
-# yabai -m config top_padding                  12
-# yabai -m config bottom_padding               12
-# yabai -m config left_padding                 12
-# yabai -m config right_padding                12
-# yabai -m config window_gap                   06
-# 
-# echo "yabai configuration loaded.."
-#!/usr/bin/env sh
-
 sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo /Users/me/.local/bin/yabai --load-sa"
-# yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
 
 # yabai -m config external_bar               all:0:0
 yabai -m config window_border              on
@@ -62,13 +14,12 @@ yabai -m config window_shadow              on
 yabai -m config window_opacity             on
 # yabai -m config window_opacity_duration    0.0
 yabai -m config active_window_opacity      1.0
-yabai -m config normal_window_opacity      0.8
+yabai -m config normal_window_opacity      0.75
 yabai -m config window_border_width        6
-yabai -m config active_window_border_color 0xff8f342f
-yabai -m config normal_window_border_color 0xff555555
-yabai -m config normal_window_border_color 0xcc2a2f38
-yabai -m config insert_feedback_color      0xff9dd274
-yabai -m config split_ratio                0.65
+yabai -m config active_window_border_color 0xff52bdff
+yabai -m config normal_window_border_color 0xff161616
+yabai -m config insert_feedback_color      0x6633b1ff
+yabai -m config split_ratio                0.62
 yabai -m config auto_balance               off
 yabai -m config mouse_modifier             fn
 yabai -m config mouse_action1              move
@@ -77,11 +28,11 @@ yabai -m config mouse_drop_action          swap
 
 
 yabai -m config layout                     bsp
-yabai -m config top_padding                13
-yabai -m config bottom_padding             10
-yabai -m config left_padding               10
-yabai -m config right_padding              10
-yabai -m config window_gap                 10
+yabai -m config top_padding                23
+yabai -m config bottom_padding             20
+yabai -m config left_padding               20
+yabai -m config right_padding              20
+yabai -m config window_gap                 20
 # Do not manage some apps which are not resizable
 yabai -m rule --add app="^(mpv|qemu-system-aarch64|Simulator|Android Studio|JetBrains|LuLu|Vimac|Calculator|Spotify|GoLand|Webstorm|CLion|VLC|System Preferences|zoom.us|Photo Booth|Archive Utility|Python|LibreOffice)$" manage=off
 
@@ -91,6 +42,8 @@ yabai -m rule --add label="Steam" app="^Steam$" space=5 manage=off
 yabai -m rule --add label="Outlook" app="^Microsoft .*$" manage=off
 yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
 yabai -m rule --add label="PopUp" app="^kitty$" title="^PopUp$" manage=off border=off grid=7:5:3:4:2:3
+yabai -m rule --add label="Mail" app="^kitty$" title="^Mail$" manage=off border=on grid=7:5:1:4:3:4
+yabai -m rule --add label="Launcher" app="^kitty$" title="^Launcher$" manage=off border=off grid=9:9:3:2:3:2
 yabai -m rule --add label="Alfred" app="^Alfred$" manage=off
 yabai -m rule --add label="Firefox" app="Firefox$" title="^(Library|History|General|(Download|Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
 yabai -m rule --add label="System Preferences" app="^System Preferences$" manage=off

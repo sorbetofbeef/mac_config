@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+check_dir () 
+{
+  target_dir=$1
+
+  if [[ -d $target_dir ]]; then
+    return 0
+  else
+    printf '\e[33m%s\e[0m\n' "$target_dir"
+    printf '\n\e[32mCreating a directory at %s...\e[0m\n' "${target_dir}"
+    sleep 1
+    ( mkdir -pv "$target_dir" && printf '\n\e[32mSuccess!\e[0m' ) || return 1
+  fi
+}

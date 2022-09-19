@@ -23,7 +23,7 @@ pup ()
   pkg=$1
   
   if sudo port selfupdate && [[ -n $pkg ]]; then
-    printf '\e[32mI am about to upgrade %s ' $pkg
+    printf '\e[32mI am about to upgrade %s ' "$pkg"
     check
     sudo port upgrade -Ruc "$pkg"
   else

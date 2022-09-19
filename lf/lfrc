@@ -2,10 +2,9 @@
 # Configuration for lf 
 # ~/.config/lf/lfrc
 #
-
 ### SETTINGS
-
 # General
+
 set icons true
 set drawbox true
 set globsearch true
@@ -18,32 +17,13 @@ set ratios 1:2:2
 set cleaner ~/.config/lf/lf_kitty_clean
 set previewer ~/.config/lf/lf_kitty_preview
 ############################################################################
+# SHELL
 
-# Shell
 set shell zsh
 set shellopts '-euy'
 set ifs "\n"
 set filesep "\n"
 ############################################################################
-
-# Unset any prolematic keybinds
-map e
-map E
-map <c-e>
-map <a-e>
-map a
-map A
-# map r
-map <c-p>
-map +
-map -
-cmap <c-g>
-cmap <C-S-g>
-cmap <c-s-g>
-############################################################################
-
-### CUSTOM COMMANDS
-
 # INIT
 
 cmd on-cd &{{
@@ -58,11 +38,18 @@ cmd on-cd &{{
     lf -remote "send $id set promptfmt \"$fmt\""
 }} 
 
-on-cd
-!fpath=(/Users/me/.config/zsh/functions $fpath) && autoload heading && heading
-############################################################################
+# !fpath=(/Users/me/.config/zsh/functions $fpath) && autoload heading && heading
 
+&source /Users/me/.config/zsh/.zshenv
+&source /Users/me/.config/zsh/.zshrc
+on-cd
+# mappings
+map H set hidden!
+map r :rename $f
+map <return> $${SHELL}
+############################################################################
 ## TODOLIST
+
 cmd todo !{{
   set -f 
   clear
@@ -71,22 +58,33 @@ cmd todo !{{
 # mappings
 map <c-t> :todo
 ############################################################################
-
 # OPEN DEFAULT APP
+
 cmd open ${{
   case $(file --mime-type "$(readlink -f $f)" -b) in
     text/*|application/json|application/octet-stream) $EDITOR $fx;;
     *) for f in $fx; do open $f > /dev/null 2> /dev/null & done;;
   esac
 }}
+# mappings
+map <enter> &open $f
+map o &open $f
 ############################################################################
-
-
 # TRASH
-cmd trash %trash -Fv $fx
-############################################################################
 
+cmd trash %{{ 
+  set -f
+  [[ ! -d ~/.Trash ]] && mkdir -pv ~/.Trash/
+
+  mv -v $fx ~/.Trash/ || (cp -rv $fx ~/.Trash/ && rm -rf $fx)
+}}
+# mappings
+map <delete> :delete $fx
+map D :trash $fx
+
+############################################################################
 # (DE)COMPRESSION
+
 # decompression
 cmd extract ${{
     set -f
@@ -100,7 +98,7 @@ cmd extract ${{
         *.7z) 7z x $f;;
     esac
 }}
-# Compression: tar
+# compression: tar
 cmd tar ${{
     set -f
     mkdir $1
@@ -108,7 +106,7 @@ cmd tar ${{
     tar cf $1.tar.xz --compress-program='xz -z -9e -T4 -f' $1 
     rm -rf $1
 }}
-# Compression: zip
+# compression: zip
 cmd zip ${{
     set -f
     mkdir $1
@@ -117,8 +115,8 @@ cmd zip ${{
     rm -rf $1
 }}
 ############################################################################
-
 # LINK
+
 cmd link !{{
   set -f
 
@@ -138,100 +136,22 @@ cmd link !{{
     ${sup:-''}ln -sv${p:-''} "${file}" ${arg:='..'}/${target/%.[sl][hu]*}
   done
 }}
-############################################################################
-
-# GIT
-cmd git-add !{{
-  set -f 
-
-  git status &&
-  git add $fx
-}}
-############################################################################
-
-# Chown
-cmd chown %set -f; sudo chown -v $1 $fx
-cmd chown-recurse %set -f; sudo chown -Rv $1 $fx
-
-cmd mkdir $mkdir -pv "$@"
-############################################################################
-
-### KEYBINDS
-
-#General
-map <enter> &open $f
-map o &open $f
-
-map H set hidden!
-
-map A push :mkdir<space>
-map a push $nvim<space>
-
-map <delete> :delete $fx
-map D :trash $fx
-
-map r :rename $f
-############################################################################
-
-# Link
+# mappings
 map <c-l>
 map <c-l>l push :link<space>-o<space>
 map <c-l>L push :link<space>-fo<space>
 map <c-l>d push :link<space>-do<space>
 map <c-l>D push :link<space>-dfo<space>
 ############################################################################
+# GIT
 
-# Neovim
-map e $nvim $fx
-map <c-e> push $sudo<space>nvim<space>
-map <a-e> $nvim /Users/me/.config/lf/lfrc
-############################################################################
+cmd git-add !{{
+  set -f 
 
-#MacPorts
-cmd port_upgrade !{{
-  set -f
-  sudo port selfupdate &&
-  sudo port upgrade -cRu outdated
+  git status &&
+  git add $fx
 }}
-############################################################################
-
-# Homebrew
-cmd brew_install :{{
-    push !brew<space>install<space>
-  }}
-
-map b 
-map bi :brew_install
-map bu      !brew update && brew upgrade
-############################################################################
-
-map <c-p>
-map <c-p>i push !sudo<space>port<space>install<space>-c<space>
-map <c-p>u      :port_upgrade
-map <c-p>r push !sudo<space>port<space>uninstall<space>-u<space>
-map <c-p>s push !sudo<space>port<space>select<space>--set<space>
-map <c-p>S push !sudo port select --summary
-map <c-p>p $sudo port
-############################################################################
-
-# Add permission
-map +x %sudo chmod -v +x $fx
-map +r %sudo chmod -v +r $fx
-map +w %sudo chmod -v +w $fx
-############################################################################
-
-# Remove permission
-map -x %sudo chmod -v -x $fx
-map -r %sudo chmod -v -r $fx
-map -w %sudo chmod -v -w $fx
-############################################################################
-
-# Chown
-map <a-o> push :chown<space>
-map <a-O> push :chown-recurse<space>
-############################################################################
-
-# Git
+# mappings
 map g
 map gg          $lazygit -p=$PWD
 map gi          %git init ${f%/*} -C
@@ -246,5 +166,71 @@ map gP     push !git<space>pull<space>
 map gf     push !git<space>fetch<space>--all<space>
 map g<c-m>      !git merge $fx
 ############################################################################
+# PERMISSIONS
 
+# Chown
+cmd chown %set -f; sudo chown -v $1 $fx
+cmd chown-recurse %set -f; sudo chown -Rv $1 $fx
+# mappings
+map <a-o> push :chown<space>
+map <a-O> push :chown-recurse<space>
+# Add permission
+# mappings 
+map +
+map +x %sudo chmod -v +x $fx
+map +r %sudo chmod -v +r $fx
+map +w %sudo chmod -v +w $fx
+# Remove permission
+# mappings
+map -
+map -x %sudo chmod -v -x $fx
+map -r %sudo chmod -v -r $fx
+map -w %sudo chmod -v -w $fx
+############################################################################
+# CREATE DIR/FILE
+
+# mkdir
+cmd mkdir $mkdir -pv "$@"
+# mappings
+map a
+map A
+map A push :mkdir<space>
+map a push $nvim<space>
+############################################################################
+# Neovim
+
+map e
+map E
+map <c-e>
+map <a-e>
+map e $nvim $fx
+map <c-e> push $sudo<space>nvim<space>
+map <a-e> $nvim /Users/me/.config/lf/lfrc
+############################################################################
+#MacPorts
+
+cmd port_upgrade !{{
+  set -f
+  sudo port selfupdate &&
+  sudo port upgrade -cRu outdated
+}}
+# mappings
+map <c-p>
+map <c-p>i push !sudo<space>port<space>install<space>-c<space>
+map <c-p>u      :port_upgrade
+map <c-p>r push !sudo<space>port<space>uninstall<space>-u<space>
+map <c-p>s push !sudo<space>port<space>select<space>--set<space>
+map <c-p>S push !sudo port select --summary
+map <c-p>p $sudo port
+############################################################################
+# Homebrew
+
+cmd brew_install :{{
+  push !brew<space>install<space>
+}}
+# mappings
+map b 
+map bi :brew_install
+map bu      !brew update && brew upgrade
+############################################################################
 
