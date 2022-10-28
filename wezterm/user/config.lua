@@ -3,7 +3,9 @@ local act = wezterm.action
 local mod = "OPT"
 local lead = "LEADER"
 
-return {
+local M = {}
+M.setup = function()
+local config = {
   leader = { key="Space", mods=mod, timeout_milliseconds=3000 },
   launch_menu = {
     {
@@ -48,9 +50,10 @@ return {
   },
 -- ** FONTS ** --
 
-  font_size = 10.0,
+  font_size = 12.0,
   font = wezterm.font_with_fallback({
-    { family="Cartograph CF"},
+    { family="PragmataPro Liga"},
+    { family="nonicons"},
     { family="Symbols Nerd Font"}
   }),
 
@@ -67,9 +70,9 @@ return {
     active_titlebar_bg = "#b7141f",
     active_titlebar_fg = "#e5e5e5",
   },
-  -- colors = {
-    -- Tab Bar
-    --[[ tab_bar = {
+  colors = {
+--   Tab Bar
+    tab_bar = {
       background = "#b7141f",
       active_tab = {
         intensity = "Bold",
@@ -82,7 +85,7 @@ return {
         fg_color = "#b7141f"
       }
     }
-  }, ]]
+  },
   color_scheme = "MaterialDarker",
   use_fancy_tab_bar = false,
   enable_wayland = false,
@@ -90,4 +93,8 @@ return {
   unix_domains = {{ name = "unix" }},
   default_gui_startup_args = {"connect", "unix"},
 }
+return config
+end
+
+return M
 

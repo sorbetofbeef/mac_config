@@ -31,7 +31,7 @@
 #                       command      = command is executed through '$SHELL -c' and
 #                                      follows valid shell syntax. if the $SHELL environment
 #                                      variable is not set, it will default to '/bin/bash'.
-#                                      when bash is used, the ';' delimeter can be specified
+#                                      when bash is used, the ';' delimiter can be specified
 #                                      to chain commands.
 #
 #                                      to allow a command to extend into multiple lines,
@@ -57,7 +57,7 @@
 #                       command   = command is executed through '$SHELL -c' and
 #                                   follows valid shell syntax. if the $SHELL environment
 #                                   variable is not set, it will default to '/bin/bash'.
-#                                   when bash is used, the ';' delimeter can be specified
+#                                   when bash is used, the ';' delimiter can be specified
 #                                   to chain commands.
 #
 #                                   to allow a command to extend into multiple lines,
@@ -65,13 +65,16 @@
 #
 #                                   an EOL character signifies the end of the bind.
 
-
-
-# open terminal, blazingly fast compared to iTerm/Hyper
+# tiled terminal
 cmd + shift - return : ~/.local/bin/float_term t &> /dev/null 
+# application launcher
 cmd + ctrl - return : ~/.local/bin/float_term l &> /dev/null
+# floating terminal
 cmd - return : ~/.local/bin/float_term f &> /dev/null
+# neomutt
 cmd + ctrl - m : ~/.local/bin/float_term m &> /dev/null
+# spotify_playrer
+cmd + ctrl - s : open -na WezTerm.app --args spotify_player 
 # open neovim
 cmd + shift - e : ~/.local/bin/float_term e &> /dev/null 
 cmd + ctrl - e : open -na Neovide --args --multigrid --frame Buttonless -- +cd /Users/me/Projects

@@ -1,5 +1,4 @@
-local config = require("user.config")
+-- local config = require("user.config")
 require("user.float_term")
-
-return config
+return require("user.config").setup()
 

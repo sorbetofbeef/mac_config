@@ -7,7 +7,7 @@ keepaspect-window=no
 
 background=0.15/0.15/0.15
 
-vo=gpu
+vo=libmpv
 
 ao=coreaudio
 

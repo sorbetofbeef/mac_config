@@ -31,4 +31,5 @@ cmus
 glrnvim
 kitty/kitty.conf.bak
 op
-zsh/.zsh_sessions
+helix/runtime
+iterm2

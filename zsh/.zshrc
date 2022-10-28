@@ -21,7 +21,7 @@ zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh
 zstyle ':completion:*' insert-unambiguous true
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
 zstyle ':completion:*' menu select=1
 zstyle ':completion:*' original true
@@ -63,26 +63,28 @@ bindkey -s '^o' 'lfcd\n'  # zsh
 # source /opt/homebrew/Cellar/nvm/0.39.1_1/libexec/nvm.sh
 source /Users/me/.config/broot/launcher/bash/br
 
-source <(/Users/me/.local/share/cargo/bin/starship init zsh --print-full-init)
+# source /Users/me/.config/zsh/themes/poimandres/None.sh
+
+source <(starship init --print-full-init zsh)
 
 pfetch
 heading
-dark_mode
+/Users/me/.local/bin/dark_mode 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/me/.local/src/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/me/.local/src/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/me/.local/src/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/me/.local/src/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+# __conda_setup="$('/Users/me/.local/src/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/me/.local/src/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/me/.local/src/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/me/.local/src/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
 # <<< conda initialize <<<
 

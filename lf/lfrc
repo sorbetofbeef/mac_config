@@ -38,10 +38,6 @@ cmd on-cd &{{
     lf -remote "send $id set promptfmt \"$fmt\""
 }} 
 
-# !fpath=(/Users/me/.config/zsh/functions $fpath) && autoload heading && heading
-
-&source /Users/me/.config/zsh/.zshenv
-&source /Users/me/.config/zsh/.zshrc
 on-cd
 # mappings
 map H set hidden!

@@ -45,7 +45,7 @@ sketchybar --default updates=when_shown                    \
 # to indicate active and available mission control spaces
 
 
-SPACE_ICONS=(" " " " " " " ")
+SPACE_ICONS=(" " " " " " " " " ")
 
 for i in "${!SPACE_ICONS[@]}"
 do
@@ -83,11 +83,6 @@ sketchybar --add item space_separator left                            \
 sketchybar --add item clock right                                     \
            --set clock   update_freq=10                               \
                          script="$PLUGIN_DIR/clock.sh"                \
-           --add item space_separator right                           \
-           --set space_separator icon=                               \
-                                 background.padding_left=5            \
-                                 background.padding_right=5           \
-                                 label.drawing=off                    \
            --add item battery right                                   \
            --set battery script="$PLUGIN_DIR/battery.sh"              \
                          update_freq=60                               \
